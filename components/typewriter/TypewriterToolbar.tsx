@@ -19,9 +19,15 @@ export default function TypewriterToolbar() {
     paperHeight,
     paperBackground,
     paperBackgroundImage,
+    isBold,
+    isItalic,
+    isUnderline,
     setPaperSize,
     setPaperTemplate,
     setPaperBackgroundImage,
+    toggleBold,
+    toggleItalic,
+    toggleUnderline,
     reset,
   } = useTypewriterStore();
   const bgInputRef = useRef<HTMLInputElement>(null);
@@ -150,6 +156,43 @@ export default function TypewriterToolbar() {
           onChange={handleBgUpload}
           className="hidden"
         />
+      </div>
+
+      {/* Text Formatting */}
+      <div>
+        <h3 className="text-sm font-semibold text-ink mb-2">Format</h3>
+        <div className="flex gap-1">
+          <button
+            onClick={toggleBold}
+            className={`flex-1 py-1.5 text-sm font-bold rounded border transition-colors ${
+              isBold
+                ? "bg-warm-brown text-cream border-warm-brown"
+                : "bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+            }`}
+          >
+            B
+          </button>
+          <button
+            onClick={toggleItalic}
+            className={`flex-1 py-1.5 text-sm italic rounded border transition-colors ${
+              isItalic
+                ? "bg-warm-brown text-cream border-warm-brown"
+                : "bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+            }`}
+          >
+            I
+          </button>
+          <button
+            onClick={toggleUnderline}
+            className={`flex-1 py-1.5 text-sm underline rounded border transition-colors ${
+              isUnderline
+                ? "bg-warm-brown text-cream border-warm-brown"
+                : "bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+            }`}
+          >
+            U
+          </button>
+        </div>
       </div>
 
       {/* Font Size */}

@@ -18,6 +18,9 @@ export default function TypewriterMode() {
     paperBackground,
     paperLineColor,
     paperBackgroundImage,
+    isBold,
+    isItalic,
+    isUnderline,
     selectOverlay,
   } = useTypewriterStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -95,6 +98,9 @@ export default function TypewriterMode() {
             color: inkColor,
             caretColor: inkColor,
             padding: `${PAPER.paddingTop}px ${PAPER.paddingRight}px 20px ${PAPER.paddingLeft}px`,
+            fontWeight: isBold ? "bold" : "normal",
+            fontStyle: isItalic ? "italic" : "normal",
+            textDecoration: isUnderline ? "underline" : "none",
             zIndex: 10,
             position: "relative",
           }}

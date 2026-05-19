@@ -19,6 +19,9 @@ export default function TypewriterExport() {
     paperBackground,
     paperLineColor,
     paperBackgroundImage,
+    isBold,
+    isItalic,
+    isUnderline,
   } = useTypewriterStore();
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
@@ -111,6 +114,8 @@ export default function TypewriterExport() {
             text={text}
             fontSize={fontSize}
             fontFamily="Special Elite, monospace"
+            fontStyle={[isBold ? "bold" : "", isItalic ? "italic" : ""].filter(Boolean).join(" ") || "normal"}
+            textDecoration={isUnderline ? "underline" : ""}
             fill={inkColor}
             lineHeight={PAPER.lineSpacing / fontSize}
           />

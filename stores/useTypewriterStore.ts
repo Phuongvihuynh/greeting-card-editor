@@ -11,11 +11,17 @@ interface TypewriterStore {
   paperBackground: string;
   paperLineColor: string;
   paperBackgroundImage: string | null;
+  isBold: boolean;
+  isItalic: boolean;
+  isUnderline: boolean;
   overlays: TypewriterOverlay[];
   selectedOverlayId: string | null;
   setText: (text: string) => void;
   setInkColor: (color: string) => void;
   setFontSize: (size: number) => void;
+  toggleBold: () => void;
+  toggleItalic: () => void;
+  toggleUnderline: () => void;
   setPaperSize: (sizeId: string) => void;
   setPaperTemplate: (templateId: string) => void;
   setPaperBackgroundImage: (src: string | null) => void;
@@ -36,12 +42,18 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   paperBackground: PAPER_TEMPLATES[0].background,
   paperLineColor: PAPER_TEMPLATES[0].lineColor,
   paperBackgroundImage: null,
+  isBold: false,
+  isItalic: false,
+  isUnderline: false,
   overlays: [],
   selectedOverlayId: null,
 
   setText: (text) => set({ text }),
   setInkColor: (inkColor) => set({ inkColor }),
   setFontSize: (fontSize) => set({ fontSize }),
+  toggleBold: () => set((s) => ({ isBold: !s.isBold })),
+  toggleItalic: () => set((s) => ({ isItalic: !s.isItalic })),
+  toggleUnderline: () => set((s) => ({ isUnderline: !s.isUnderline })),
   setPaperSize: (sizeId) => {
     const size = PAPER_SIZES.find((s) => s.id === sizeId);
     if (size) {
@@ -99,6 +111,9 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       paperBackground: PAPER_TEMPLATES[0].background,
       paperLineColor: PAPER_TEMPLATES[0].lineColor,
       paperBackgroundImage: null,
+      isBold: false,
+      isItalic: false,
+      isUnderline: false,
       overlays: [],
       selectedOverlayId: null,
     }),
