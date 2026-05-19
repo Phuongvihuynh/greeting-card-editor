@@ -5,6 +5,7 @@ import { Stage, Layer, Rect, Circle, Text, Transformer } from "react-konva";
 import { useCardStore } from "@/stores/useCardStore";
 import type { CardElement } from "@/types/card";
 import type Konva from "konva";
+import KonvaImageElement from "./KonvaImage";
 
 export default function KonvaCanvas() {
   const { card, selectedElementId, selectElement, updateElement } =
@@ -91,6 +92,24 @@ export default function KonvaCanvas() {
         handleTransformEnd(el.id, e),
       ref: (node: Konva.Node | null) => setShapeRef(el.id, node),
     };
+
+    if (el.type === "image" && el.src) {
+      return (
+        <KonvaImageElement
+          key={el.id}
+          element={el}
+          onClick={() => selectElement(el.id)}
+          onTap={() => selectElement(el.id)}
+          onDragEnd={(e: Konva.KonvaEventObject<DragEvent>) =>
+            handleDragEnd(el.id, e)
+          }
+          onTransformEnd={(e: Konva.KonvaEventObject<Event>) =>
+            handleTransformEnd(el.id, e)
+          }
+          nodeRef={(node: Konva.Node | null) => setShapeRef(el.id, node)}
+        />
+      );
+    }
 
     if (el.type === "text") {
       return (

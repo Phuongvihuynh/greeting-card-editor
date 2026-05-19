@@ -1,10 +1,14 @@
 "use client";
 
+import { useRef } from "react";
 import { useCardStore } from "@/stores/useCardStore";
+
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 export default function PropertiesPanel() {
   const { card, selectedElementId, updateElement, removeElement, selectElement } =
     useCardStore();
+  const replaceInputRef = useRef<HTMLInputElement>(null);
 
   const selected = card.elements.find((el) => el.id === selectedElementId);
 
@@ -23,6 +27,23 @@ export default function PropertiesPanel() {
   const handleDelete = () => {
     removeElement(selected.id);
     selectElement(null);
+  };
+
+  const handleReplaceImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (replaceInputRef.current) replaceInputRef.current.value = "";
+    if (!file) return;
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert("File is too large. Please select an image under 2 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      update({ src: reader.result as string });
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -81,15 +102,41 @@ export default function PropertiesPanel() {
         />
       </label>
 
-      <label className="flex flex-col">
-        <span className="text-ink/60 text-xs">Color</span>
-        <input
-          type="color"
-          value={selected.fill || "#000000"}
-          onChange={(e) => update({ fill: e.target.value })}
-          className="h-8 w-full border border-warm-brown/20 rounded bg-cream cursor-pointer"
-        />
-      </label>
+      {selected.type === "image" && selected.src && (
+        <div className="flex flex-col gap-2">
+          <span className="text-ink/60 text-xs">Image Preview</span>
+          <img
+            src={selected.src}
+            alt="Element preview"
+            className="w-full rounded border border-warm-brown/20 object-contain max-h-32"
+          />
+          <button
+            onClick={() => replaceInputRef.current?.click()}
+            className="px-3 py-2 text-sm bg-warm-brown/70 text-cream rounded hover:bg-warm-brown/60 transition-colors"
+          >
+            Replace Image
+          </button>
+          <input
+            ref={replaceInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/gif,image/webp"
+            onChange={handleReplaceImage}
+            className="hidden"
+          />
+        </div>
+      )}
+
+      {selected.type !== "image" && (
+        <label className="flex flex-col">
+          <span className="text-ink/60 text-xs">Color</span>
+          <input
+            type="color"
+            value={selected.fill || "#000000"}
+            onChange={(e) => update({ fill: e.target.value })}
+            className="h-8 w-full border border-warm-brown/20 rounded bg-cream cursor-pointer"
+          />
+        </label>
+      )}
 
       {selected.type === "text" && (
         <>
