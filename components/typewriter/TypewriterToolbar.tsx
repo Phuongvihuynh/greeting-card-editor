@@ -201,7 +201,7 @@ export default function TypewriterToolbar() {
       {/* Font Family */}
       <div>
         <h3 className="text-sm font-semibold text-ink mb-2">Font</h3>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="grid grid-cols-2 gap-1 max-h-48 overflow-y-auto pr-1">
           {FONT_FAMILIES.map((font) => (
             <button
               key={font.id}

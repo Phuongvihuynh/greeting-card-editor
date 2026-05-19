@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import TypewriterToolbar from "@/components/typewriter/TypewriterToolbar";
 import TypewriterStickerPanel from "@/components/typewriter/TypewriterStickerPanel";
 import TypewriterImageUpload from "@/components/typewriter/TypewriterImageUpload";
+import BackgroundTemplatePicker from "@/components/typewriter/BackgroundTemplatePicker";
 
 const TypewriterMode = dynamic(
   () => import("@/components/typewriter/TypewriterMode"),
@@ -22,6 +23,9 @@ export default function EditorPage() {
     <div className="h-screen flex">
       <aside className="w-64 bg-parchment border-r border-warm-brown/20 flex flex-col overflow-y-auto">
         <TypewriterToolbar />
+        <div className="px-4 pb-4">
+          <BackgroundTemplatePicker />
+        </div>
         <TypewriterStickerPanel />
         <TypewriterImageUpload />
       </aside>
