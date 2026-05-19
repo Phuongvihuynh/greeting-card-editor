@@ -7,6 +7,19 @@ export const INK_COLORS = [
   { name: "Purple", value: "#4A2060" },
 ] as const;
 
+export const FONT_FAMILIES = [
+  { id: "special-elite", name: "Special Elite", css: "var(--font-special-elite), monospace", konva: "Special Elite, monospace" },
+  { id: "dancing-script", name: "Dancing Script", css: "var(--font-dancing-script), cursive", konva: "Dancing Script, cursive" },
+  { id: "caveat", name: "Caveat", css: "var(--font-caveat), cursive", konva: "Caveat, cursive" },
+  { id: "indie-flower", name: "Indie Flower", css: "var(--font-indie-flower), cursive", konva: "Indie Flower, cursive" },
+  { id: "homemade-apple", name: "Homemade Apple", css: "var(--font-homemade-apple), cursive", konva: "Homemade Apple, cursive" },
+  { id: "sacramento", name: "Sacramento", css: "var(--font-sacramento), cursive", konva: "Sacramento, cursive" },
+  { id: "great-vibes", name: "Great Vibes", css: "var(--font-great-vibes), cursive", konva: "Great Vibes, cursive" },
+  { id: "pacifico", name: "Pacifico", css: "var(--font-pacifico), cursive", konva: "Pacifico, cursive" },
+] as const;
+
+export type FontFamily = (typeof FONT_FAMILIES)[number];
+
 export const FONT_SIZES = [16, 18, 20, 22, 24, 28, 32] as const;
 
 export const PAPER = {
