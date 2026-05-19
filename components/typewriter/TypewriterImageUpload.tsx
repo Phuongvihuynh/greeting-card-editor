@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
-import { PAPER } from "@/lib/typewriter-constants";
 import FrameSelector from "./FrameSelector";
 import type { TypewriterOverlay, FrameType } from "@/types/typewriter";
 
@@ -11,7 +10,7 @@ function generateId() {
 }
 
 export default function TypewriterImageUpload() {
-  const { addOverlay, overlays, selectedOverlayId, setOverlayFrame } =
+  const { addOverlay, overlays, selectedOverlayId, setOverlayFrame, paperWidth, paperHeight } =
     useTypewriterStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFrame, setSelectedFrame] = useState<FrameType>("none");
@@ -44,8 +43,8 @@ export default function TypewriterImageUpload() {
           id: generateId(),
           type: "image",
           src,
-          x: (PAPER.width - width) / 2,
-          y: (PAPER.height - height) / 2,
+          x: (paperWidth - width) / 2,
+          y: (paperHeight - height) / 2,
           width,
           height,
           frame: selectedFrame,

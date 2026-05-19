@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
-import { PAPER } from "@/lib/typewriter-constants";
 import {
   TYPEWRITER_STICKERS,
   TYPEWRITER_STICKER_CATEGORIES,
@@ -15,7 +14,7 @@ function generateId() {
 }
 
 export default function TypewriterStickerPanel() {
-  const { addOverlay } = useTypewriterStore();
+  const { addOverlay, paperWidth, paperHeight } = useTypewriterStore();
   const [activeCategory, setActiveCategory] =
     useState<TypewriterStickerCategory>("All");
 
@@ -33,8 +32,8 @@ export default function TypewriterStickerPanel() {
       id: generateId(),
       type: "sticker",
       src: dataUrl,
-      x: (PAPER.width - sticker.width) / 2,
-      y: (PAPER.height - sticker.height) / 2,
+      x: (paperWidth - sticker.width) / 2,
+      y: (paperHeight - sticker.height) / 2,
       width: sticker.width,
       height: sticker.height,
       frame: "none",

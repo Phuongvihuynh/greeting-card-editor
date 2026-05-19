@@ -1,16 +1,18 @@
 "use client";
 
-import { CARRIAGE, PAPER } from "@/lib/typewriter-constants";
+import { CARRIAGE } from "@/lib/typewriter-constants";
 import { useCarriageDrag } from "@/hooks/useCarriageDrag";
+import { useTypewriterStore } from "@/stores/useTypewriterStore";
 
 interface CarriageReturnProps {
   onReturn: () => void;
 }
 
 export default function CarriageReturn({ onReturn }: CarriageReturnProps) {
+  const paperWidth = useTypewriterStore((s) => s.paperWidth);
   const { handleRef, onPointerDown, onPointerMove, onPointerUp } =
     useCarriageDrag({
-      trackWidth: PAPER.width,
+      trackWidth: paperWidth,
       onReturn,
     });
 
@@ -18,7 +20,7 @@ export default function CarriageReturn({ onReturn }: CarriageReturnProps) {
     <div
       className="relative select-none"
       style={{
-        width: PAPER.width,
+        width: paperWidth,
         height: CARRIAGE.trackHeight,
       }}
     >
