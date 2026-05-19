@@ -8,12 +8,14 @@ interface TypewriterStore {
   fontSize: number;
   paperBackground: string;
   paperLineColor: string;
+  paperBackgroundImage: string | null;
   overlays: TypewriterOverlay[];
   selectedOverlayId: string | null;
   setText: (text: string) => void;
   setInkColor: (color: string) => void;
   setFontSize: (size: number) => void;
   setPaperTemplate: (templateId: string) => void;
+  setPaperBackgroundImage: (src: string | null) => void;
   addOverlay: (overlay: TypewriterOverlay) => void;
   updateOverlay: (id: string, updates: Partial<TypewriterOverlay>) => void;
   removeOverlay: (id: string) => void;
@@ -28,6 +30,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   fontSize: FONT_SIZES[3],
   paperBackground: PAPER_TEMPLATES[0].background,
   paperLineColor: PAPER_TEMPLATES[0].lineColor,
+  paperBackgroundImage: null,
   overlays: [],
   selectedOverlayId: null,
 
@@ -37,9 +40,14 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   setPaperTemplate: (templateId) => {
     const tmpl = PAPER_TEMPLATES.find((t) => t.id === templateId);
     if (tmpl) {
-      set({ paperBackground: tmpl.background, paperLineColor: tmpl.lineColor });
+      set({
+        paperBackground: tmpl.background,
+        paperLineColor: tmpl.lineColor,
+        paperBackgroundImage: null,
+      });
     }
   },
+  setPaperBackgroundImage: (src) => set({ paperBackgroundImage: src }),
 
   addOverlay: (overlay) =>
     set((state) => ({
@@ -77,6 +85,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       fontSize: FONT_SIZES[3],
       paperBackground: PAPER_TEMPLATES[0].background,
       paperLineColor: PAPER_TEMPLATES[0].lineColor,
+      paperBackgroundImage: null,
       overlays: [],
       selectedOverlayId: null,
     }),
