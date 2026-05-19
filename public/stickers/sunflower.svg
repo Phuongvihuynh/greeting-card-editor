@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <path d="M50 85 C50 85 50 60 50 50" stroke="#9CAF88" stroke-width="3" fill="none"/>
+  <path d="M50 72 C40 67 34 70 38 76" stroke="#9CAF88" stroke-width="2" fill="#9CAF88" opacity="0.5"/>
+  <g transform="translate(50,36)">
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8" transform="rotate(30)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8" transform="rotate(60)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8" transform="rotate(90)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8" transform="rotate(120)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#8B6914" stroke="#8B6914" stroke-width="0.8" opacity="0.8" transform="rotate(150)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8" transform="rotate(30)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8" transform="rotate(60)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8" transform="rotate(90)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8" transform="rotate(120)"/>
+    <ellipse cx="0" cy="-13" rx="4.5" ry="9" fill="#F5E6CA" stroke="#8B6914" stroke-width="0.8" transform="rotate(150)"/>
+    <circle cx="0" cy="0" r="8" fill="#8B6914" stroke="#2C2C2C" stroke-width="0.8"/>
+    <circle cx="-2" cy="-2" r="1.5" fill="#2C2C2C" opacity="0.3"/>
+    <circle cx="2" cy="1" r="1.5" fill="#2C2C2C" opacity="0.3"/>
+    <circle cx="-1" cy="3" r="1.5" fill="#2C2C2C" opacity="0.3"/>
+  </g>
+</svg>
