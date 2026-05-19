@@ -1,4 +1,4 @@
-import TemplateGrid from "@/components/TemplateGrid";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -15,8 +15,12 @@ export default function Home() {
         <span className="inline-block w-4 h-4 rounded-full bg-warm-brown" />
         <span className="inline-block w-4 h-4 rounded-full bg-parchment" />
       </div>
-      <p className="text-sm text-ink/50">Choose a template to get started</p>
-      <TemplateGrid />
+      <Link
+        href="/editor"
+        className="px-6 py-3 rounded bg-warm-brown text-cream font-medium hover:bg-warm-brown/90 transition-colors"
+      >
+        Start Writing
+      </Link>
     </main>
   );
 }
