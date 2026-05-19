@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Stage, Layer, Rect, Text, Line, Image as KonvaImage } from "react-konva";
-import { PAPER } from "@/lib/typewriter-constants";
+import { PAPER, FONT_FAMILIES } from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 import OverlayExportLayer from "./OverlayExportLayer";
 import type Konva from "konva";
@@ -22,7 +22,10 @@ export default function TypewriterExport() {
     isBold,
     isItalic,
     isUnderline,
+    fontFamilyId,
   } = useTypewriterStore();
+
+  const currentFont = FONT_FAMILIES.find((f) => f.id === fontFamilyId) ?? FONT_FAMILIES[0];
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
@@ -113,7 +116,7 @@ export default function TypewriterExport() {
             width={paperWidth - PAPER.paddingLeft - PAPER.paddingRight}
             text={text}
             fontSize={fontSize}
-            fontFamily="Special Elite, monospace"
+            fontFamily={currentFont.konva}
             fontStyle={[isBold ? "bold" : "", isItalic ? "italic" : ""].filter(Boolean).join(" ") || "normal"}
             textDecoration={isUnderline ? "underline" : ""}
             fill={inkColor}

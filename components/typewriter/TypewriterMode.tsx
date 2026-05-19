@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useCallback } from "react";
-import { PAPER } from "@/lib/typewriter-constants";
+import { PAPER, FONT_FAMILIES } from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 import CarriageReturn from "./CarriageReturn";
 import TypewriterExport from "./TypewriterExport";
@@ -21,8 +21,11 @@ export default function TypewriterMode() {
     isBold,
     isItalic,
     isUnderline,
+    fontFamilyId,
     selectOverlay,
   } = useTypewriterStore();
+
+  const currentFont = FONT_FAMILIES.find((f) => f.id === fontFamilyId) ?? FONT_FAMILIES[0];
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCarriageReturn = useCallback(() => {
@@ -92,7 +95,7 @@ export default function TypewriterMode() {
           onChange={(e) => setText(e.target.value)}
           className="absolute inset-0 w-full h-full resize-none bg-transparent outline-none"
           style={{
-            fontFamily: "var(--font-special-elite), monospace",
+            fontFamily: currentFont.css,
             fontSize,
             lineHeight: `${PAPER.lineSpacing}px`,
             color: inkColor,
