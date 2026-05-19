@@ -15,6 +15,7 @@ interface TypewriterStore {
   isBold: boolean;
   isItalic: boolean;
   isUnderline: boolean;
+  customBackgrounds: { id: string; src: string; name: string }[];
   overlays: TypewriterOverlay[];
   selectedOverlayId: string | null;
   setText: (text: string) => void;
@@ -27,6 +28,8 @@ interface TypewriterStore {
   setPaperSize: (sizeId: string) => void;
   setPaperTemplate: (templateId: string) => void;
   setPaperBackgroundImage: (src: string | null) => void;
+  addCustomBackground: (src: string, name: string) => void;
+  removeCustomBackground: (id: string) => void;
   addOverlay: (overlay: TypewriterOverlay) => void;
   updateOverlay: (id: string, updates: Partial<TypewriterOverlay>) => void;
   removeOverlay: (id: string) => void;
@@ -48,6 +51,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   isBold: false,
   isItalic: false,
   isUnderline: false,
+  customBackgrounds: [],
   overlays: [],
   selectedOverlayId: null,
 
@@ -75,6 +79,23 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
     }
   },
   setPaperBackgroundImage: (src) => set({ paperBackgroundImage: src }),
+
+  addCustomBackground: (src, name) =>
+    set((state) => ({
+      customBackgrounds: [
+        ...state.customBackgrounds,
+        { id: `custom-${Date.now()}`, src, name },
+      ],
+    })),
+
+  removeCustomBackground: (id) =>
+    set((state) => ({
+      customBackgrounds: state.customBackgrounds.filter((bg) => bg.id !== id),
+      paperBackgroundImage:
+        state.customBackgrounds.find((bg) => bg.id === id)?.src === state.paperBackgroundImage
+          ? null
+          : state.paperBackgroundImage,
+    })),
 
   addOverlay: (overlay) =>
     set((state) => ({

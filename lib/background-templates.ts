@@ -1,7 +1,7 @@
 export interface BackgroundTemplate {
   id: string;
   name: string;
-  category: "Floral" | "Texture" | "Pattern" | "Seasonal";
+  category: "Floral" | "Texture" | "Pattern" | "Seasonal" | "Cute";
   src: string;
   preview: string; // CSS background color for tiny thumbnail
 }
@@ -37,6 +37,15 @@ export const BACKGROUND_TEMPLATES: BackgroundTemplate[] = [
   { id: "hearts", name: "Hearts", category: "Seasonal", src: "/backgrounds/hearts.svg", preview: "#FFF5F5" },
   { id: "stars", name: "Stars", category: "Seasonal", src: "/backgrounds/stars.svg", preview: "#F8F5FF" },
   { id: "confetti", name: "Confetti", category: "Seasonal", src: "/backgrounds/confetti.svg", preview: "#FFFEF8" },
+
+  // Cute
+  { id: "shark-cat", name: "Shark Cat", category: "Cute", src: "/backgrounds/shark-cat.jpg", preview: "#EDE8E0" },
+  { id: "red-lilies", name: "Red Lilies", category: "Cute", src: "/backgrounds/red-lilies.webp", preview: "#F5F0E8" },
+  { id: "wildflower-field", name: "Flower Field", category: "Cute", src: "/backgrounds/wildflower-field.webp", preview: "#F0EBE0" },
+  { id: "lace-ribbon", name: "Lace Ribbon", category: "Cute", src: "/backgrounds/lace-ribbon.webp", preview: "#5A1520" },
+  { id: "ribbon-paper", name: "Ribbon Paper", category: "Cute", src: "/backgrounds/ribbon-paper.webp", preview: "#6A1828" },
+  { id: "maroon-polaroid", name: "Polaroid", category: "Cute", src: "/backgrounds/maroon-polaroid.webp", preview: "#1A1A1A" },
+  { id: "vintage-photos", name: "Vintage Photos", category: "Cute", src: "/backgrounds/vintage-photos.webp", preview: "#D0D0D0" },
 ];
 
-export const BACKGROUND_CATEGORIES = ["All", "Floral", "Texture", "Pattern", "Seasonal"] as const;
+export const BACKGROUND_CATEGORIES = ["All", "Floral", "Texture", "Pattern", "Seasonal", "Cute"] as const;
