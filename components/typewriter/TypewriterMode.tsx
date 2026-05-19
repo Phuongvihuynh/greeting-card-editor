@@ -15,6 +15,7 @@ export default function TypewriterMode() {
     fontSize,
     paperBackground,
     paperLineColor,
+    paperBackgroundImage,
     selectOverlay,
   } = useTypewriterStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -62,6 +63,11 @@ export default function TypewriterMode() {
           width: PAPER.width,
           height: PAPER.height,
           backgroundColor: paperBackground,
+          backgroundImage: paperBackgroundImage
+            ? `url(${paperBackgroundImage})`
+            : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
         onClick={() => selectOverlay(null)}
       >

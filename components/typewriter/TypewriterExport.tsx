@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Stage, Layer, Rect, Text, Line } from "react-konva";
+import { useEffect, useRef, useState } from "react";
+import { Stage, Layer, Rect, Text, Line, Image as KonvaImage } from "react-konva";
 import { PAPER } from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 import OverlayExportLayer from "./OverlayExportLayer";
@@ -9,8 +9,27 @@ import type Konva from "konva";
 
 export default function TypewriterExport() {
   const stageRef = useRef<Konva.Stage>(null);
-  const { text, inkColor, fontSize, overlays, paperBackground, paperLineColor } =
-    useTypewriterStore();
+  const {
+    text,
+    inkColor,
+    fontSize,
+    overlays,
+    paperBackground,
+    paperLineColor,
+    paperBackgroundImage,
+  } = useTypewriterStore();
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (!paperBackgroundImage) {
+      setBgImage(null);
+      return;
+    }
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => setBgImage(img);
+    img.src = paperBackgroundImage;
+  }, [paperBackgroundImage]);
 
   useEffect(() => {
     const handleExport = async () => {
@@ -60,6 +79,17 @@ export default function TypewriterExport() {
             height={PAPER.height}
             fill={paperBackground}
           />
+
+          {/* Background image */}
+          {bgImage && (
+            <KonvaImage
+              image={bgImage}
+              x={0}
+              y={0}
+              width={PAPER.width}
+              height={PAPER.height}
+            />
+          )}
 
           {/* Ruled lines */}
           {lines.map((y) => (
