@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import {
   INK_COLORS,
   FONT_SIZES,
@@ -27,25 +26,11 @@ export default function TypewriterToolbar() {
     isUnderline,
     setPaperSize,
     setPaperTemplate,
-    setPaperBackgroundImage,
     toggleBold,
     toggleItalic,
     toggleUnderline,
     reset,
   } = useTypewriterStore();
-  const bgInputRef = useRef<HTMLInputElement>(null);
-
-  const handleBgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPaperBackgroundImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  };
-
   const handleDownload = () => {
     window.dispatchEvent(new CustomEvent("typewriter:export"));
   };
@@ -136,29 +121,6 @@ export default function TypewriterToolbar() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 mt-2">
-          <button
-            onClick={() => bgInputRef.current?.click()}
-            className="flex-1 py-1.5 px-2 rounded border border-dashed border-warm-brown/40 text-ink/70 text-xs hover:bg-warm-brown/5 transition-colors"
-          >
-            + Upload Background
-          </button>
-          {paperBackgroundImage && (
-            <button
-              onClick={() => setPaperBackgroundImage(null)}
-              className="py-1.5 px-2 rounded border border-warm-brown/30 text-ink/50 text-xs hover:bg-warm-brown/10 transition-colors"
-            >
-              Remove
-            </button>
-          )}
-        </div>
-        <input
-          ref={bgInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleBgUpload}
-          className="hidden"
-        />
       </div>
 
       {/* Text Formatting */}
