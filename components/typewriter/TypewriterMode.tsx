@@ -8,8 +8,15 @@ import TypewriterExport from "./TypewriterExport";
 import OverlayLayer from "./OverlayLayer";
 
 export default function TypewriterMode() {
-  const { text, setText, inkColor, fontSize, selectOverlay } =
-    useTypewriterStore();
+  const {
+    text,
+    setText,
+    inkColor,
+    fontSize,
+    paperBackground,
+    paperLineColor,
+    selectOverlay,
+  } = useTypewriterStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCarriageReturn = useCallback(() => {
@@ -39,8 +46,8 @@ export default function TypewriterMode() {
     to bottom,
     transparent,
     transparent ${PAPER.lineSpacing - 1}px,
-    ${PAPER.lineColor} ${PAPER.lineSpacing - 1}px,
-    ${PAPER.lineColor} ${PAPER.lineSpacing}px
+    ${paperLineColor} ${PAPER.lineSpacing - 1}px,
+    ${paperLineColor} ${PAPER.lineSpacing}px
   )`;
 
   return (
@@ -54,7 +61,7 @@ export default function TypewriterMode() {
         style={{
           width: PAPER.width,
           height: PAPER.height,
-          backgroundColor: PAPER.background,
+          backgroundColor: paperBackground,
         }}
         onClick={() => selectOverlay(null)}
       >
