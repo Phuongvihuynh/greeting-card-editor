@@ -5,15 +5,19 @@ function generateId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
+type EditorMode = "canvas" | "typewriter";
+
 interface CardStore {
   card: Card;
   selectedElementId: string | null;
+  editorMode: EditorMode;
   setCard: (card: Card) => void;
   loadTemplate: (card: Card) => void;
   addElement: (element: CardElement) => void;
   updateElement: (id: string, updates: Partial<CardElement>) => void;
   removeElement: (id: string) => void;
   selectElement: (id: string | null) => void;
+  setEditorMode: (mode: EditorMode) => void;
 }
 
 const defaultCard: Card = {
@@ -30,6 +34,7 @@ const defaultCard: Card = {
 export const useCardStore = create<CardStore>((set) => ({
   card: defaultCard,
   selectedElementId: null,
+  editorMode: "canvas" as EditorMode,
 
   setCard: (card) => set({ card }),
 
@@ -72,4 +77,6 @@ export const useCardStore = create<CardStore>((set) => ({
     })),
 
   selectElement: (id) => set({ selectedElementId: id }),
+
+  setEditorMode: (editorMode) => set({ editorMode }),
 }));
