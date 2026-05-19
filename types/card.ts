@@ -9,6 +9,7 @@ export interface CardElement {
   content?: string;
   src?: string;
   fill?: string;
+  shapeType?: "rect" | "circle";
   fontSize?: number;
   fontFamily?: string;
 }

@@ -2,34 +2,15 @@
 
 import dynamic from "next/dynamic";
 
-const Stage = dynamic(() => import("react-konva").then((mod) => mod.Stage), {
+const KonvaCanvas = dynamic(() => import("./KonvaCanvas"), {
   ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center w-[800px] h-[600px] bg-parchment border border-warm-brown/20 rounded">
+      <p className="text-ink/50">Loading canvas...</p>
+    </div>
+  ),
 });
-const Layer = dynamic(() => import("react-konva").then((mod) => mod.Layer), {
-  ssr: false,
-});
-const Rect = dynamic(() => import("react-konva").then((mod) => mod.Rect), {
-  ssr: false,
-});
-
-import { useCardStore } from "@/stores/useCardStore";
 
 export default function Canvas() {
-  const { card } = useCardStore();
-
-  return (
-    <div className="flex items-center justify-center p-8">
-      <Stage width={card.width} height={card.height}>
-        <Layer>
-          <Rect
-            x={0}
-            y={0}
-            width={card.width}
-            height={card.height}
-            fill={card.backgroundColor}
-          />
-        </Layer>
-      </Stage>
-    </div>
-  );
+  return <KonvaCanvas />;
 }

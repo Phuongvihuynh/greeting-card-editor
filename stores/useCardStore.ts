@@ -1,10 +1,15 @@
 import { create } from "zustand";
 import type { Card, CardElement } from "@/types/card";
 
+function generateId() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
 interface CardStore {
   card: Card;
   selectedElementId: string | null;
   setCard: (card: Card) => void;
+  loadTemplate: (card: Card) => void;
   addElement: (element: CardElement) => void;
   updateElement: (id: string, updates: Partial<CardElement>) => void;
   removeElement: (id: string) => void;
@@ -27,6 +32,21 @@ export const useCardStore = create<CardStore>((set) => ({
   selectedElementId: null,
 
   setCard: (card) => set({ card }),
+
+  loadTemplate: (card) => {
+    const now = new Date().toISOString();
+    const newCard: Card = {
+      ...structuredClone(card),
+      id: generateId(),
+      createdAt: now,
+      updatedAt: now,
+      elements: card.elements.map((el) => ({
+        ...el,
+        id: generateId(),
+      })),
+    };
+    set({ card: newCard, selectedElementId: null });
+  },
 
   addElement: (element) =>
     set((state) => ({

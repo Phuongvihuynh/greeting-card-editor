@@ -1,6 +1,8 @@
+import TemplateGrid from "@/components/TemplateGrid";
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6">
+    <main className="min-h-screen flex flex-col items-center justify-center gap-6 py-12">
       <h1 className="text-4xl font-bold text-warm-brown">
         Greeting Card Editor
       </h1>
@@ -13,6 +15,8 @@ export default function Home() {
         <span className="inline-block w-4 h-4 rounded-full bg-warm-brown" />
         <span className="inline-block w-4 h-4 rounded-full bg-parchment" />
       </div>
+      <p className="text-sm text-ink/50">Choose a template to get started</p>
+      <TemplateGrid />
     </main>
   );
 }
