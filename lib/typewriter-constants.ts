@@ -16,6 +16,14 @@ export const FONT_FAMILIES = [
   { id: "sacramento", name: "Sacramento", css: "var(--font-sacramento), cursive", konva: "Sacramento, cursive" },
   { id: "great-vibes", name: "Great Vibes", css: "var(--font-great-vibes), cursive", konva: "Great Vibes, cursive" },
   { id: "pacifico", name: "Pacifico", css: "var(--font-pacifico), cursive", konva: "Pacifico, cursive" },
+  { id: "satisfy", name: "Satisfy", css: "var(--font-satisfy), cursive", konva: "Satisfy, cursive" },
+  { id: "kalam", name: "Kalam", css: "var(--font-kalam), cursive", konva: "Kalam, cursive" },
+  { id: "amatic-sc", name: "Amatic SC", css: "var(--font-amatic-sc), cursive", konva: "Amatic SC, cursive" },
+  { id: "patrick-hand", name: "Patrick Hand", css: "var(--font-patrick-hand), cursive", konva: "Patrick Hand, cursive" },
+  { id: "shadows-into-light", name: "Shadows Into Light", css: "var(--font-shadows-into-light), cursive", konva: "Shadows Into Light, cursive" },
+  { id: "architects-daughter", name: "Architects Daughter", css: "var(--font-architects-daughter), cursive", konva: "Architects Daughter, cursive" },
+  { id: "alex-brush", name: "Alex Brush", css: "var(--font-alex-brush), cursive", konva: "Alex Brush, cursive" },
+  { id: "allura", name: "Allura", css: "var(--font-allura), cursive", konva: "Allura, cursive" },
 ] as const;
 
 export type FontFamily = (typeof FONT_FAMILIES)[number];
