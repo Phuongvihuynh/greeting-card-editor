@@ -1,11 +1,13 @@
 import { create } from "zustand";
-import { INK_COLORS, FONT_SIZES, PAPER_TEMPLATES } from "@/lib/typewriter-constants";
+import { INK_COLORS, FONT_SIZES, PAPER_TEMPLATES, PAPER, PAPER_SIZES } from "@/lib/typewriter-constants";
 import type { TypewriterOverlay, FrameType } from "@/types/typewriter";
 
 interface TypewriterStore {
   text: string;
   inkColor: string;
   fontSize: number;
+  paperWidth: number;
+  paperHeight: number;
   paperBackground: string;
   paperLineColor: string;
   paperBackgroundImage: string | null;
@@ -14,6 +16,7 @@ interface TypewriterStore {
   setText: (text: string) => void;
   setInkColor: (color: string) => void;
   setFontSize: (size: number) => void;
+  setPaperSize: (sizeId: string) => void;
   setPaperTemplate: (templateId: string) => void;
   setPaperBackgroundImage: (src: string | null) => void;
   addOverlay: (overlay: TypewriterOverlay) => void;
@@ -28,6 +31,8 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   text: "",
   inkColor: INK_COLORS[0].value,
   fontSize: FONT_SIZES[3],
+  paperWidth: PAPER.width,
+  paperHeight: PAPER.height,
   paperBackground: PAPER_TEMPLATES[0].background,
   paperLineColor: PAPER_TEMPLATES[0].lineColor,
   paperBackgroundImage: null,
@@ -37,6 +42,12 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   setText: (text) => set({ text }),
   setInkColor: (inkColor) => set({ inkColor }),
   setFontSize: (fontSize) => set({ fontSize }),
+  setPaperSize: (sizeId) => {
+    const size = PAPER_SIZES.find((s) => s.id === sizeId);
+    if (size) {
+      set({ paperWidth: size.width, paperHeight: size.height });
+    }
+  },
   setPaperTemplate: (templateId) => {
     const tmpl = PAPER_TEMPLATES.find((t) => t.id === templateId);
     if (tmpl) {
@@ -83,6 +94,8 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       text: "",
       inkColor: INK_COLORS[0].value,
       fontSize: FONT_SIZES[3],
+      paperWidth: PAPER.width,
+      paperHeight: PAPER.height,
       paperBackground: PAPER_TEMPLATES[0].background,
       paperLineColor: PAPER_TEMPLATES[0].lineColor,
       paperBackgroundImage: null,

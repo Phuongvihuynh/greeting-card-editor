@@ -73,6 +73,16 @@ export const PAPER_TEMPLATES = [
 
 export type PaperTemplate = (typeof PAPER_TEMPLATES)[number];
 
+export const PAPER_SIZES = [
+  { id: "letter", name: "Letter", width: 700, height: 520 },
+  { id: "a4", name: "A4", width: 620, height: 877 },
+  { id: "square", name: "Square", width: 600, height: 600 },
+  { id: "postcard", name: "Postcard", width: 600, height: 400 },
+  { id: "wide", name: "Wide", width: 800, height: 450 },
+] as const;
+
+export type PaperSize = (typeof PAPER_SIZES)[number];
+
 export const CARRIAGE = {
   trackHeight: 32,
   handleWidth: 48,

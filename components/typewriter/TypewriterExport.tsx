@@ -14,6 +14,8 @@ export default function TypewriterExport() {
     inkColor,
     fontSize,
     overlays,
+    paperWidth,
+    paperHeight,
     paperBackground,
     paperLineColor,
     paperBackgroundImage,
@@ -61,7 +63,7 @@ export default function TypewriterExport() {
   const lines: number[] = [];
   for (
     let y = PAPER.paddingTop + PAPER.lineSpacing;
-    y < PAPER.height;
+    y < paperHeight;
     y += PAPER.lineSpacing
   ) {
     lines.push(y);
@@ -69,14 +71,14 @@ export default function TypewriterExport() {
 
   return (
     <div style={{ position: "fixed", left: -9999, top: -9999, pointerEvents: "none" }}>
-      <Stage ref={stageRef} width={PAPER.width} height={PAPER.height}>
+      <Stage ref={stageRef} width={paperWidth} height={paperHeight}>
         <Layer>
           {/* Paper background */}
           <Rect
             x={0}
             y={0}
-            width={PAPER.width}
-            height={PAPER.height}
+            width={paperWidth}
+            height={paperHeight}
             fill={paperBackground}
           />
 
@@ -86,8 +88,8 @@ export default function TypewriterExport() {
               image={bgImage}
               x={0}
               y={0}
-              width={PAPER.width}
-              height={PAPER.height}
+              width={paperWidth}
+              height={paperHeight}
             />
           )}
 
@@ -95,7 +97,7 @@ export default function TypewriterExport() {
           {lines.map((y) => (
             <Line
               key={y}
-              points={[0, y, PAPER.width, y]}
+              points={[0, y, paperWidth, y]}
               stroke={paperLineColor}
               strokeWidth={1}
             />
@@ -105,7 +107,7 @@ export default function TypewriterExport() {
           <Text
             x={PAPER.paddingLeft}
             y={PAPER.paddingTop}
-            width={PAPER.width - PAPER.paddingLeft - PAPER.paddingRight}
+            width={paperWidth - PAPER.paddingLeft - PAPER.paddingRight}
             text={text}
             fontSize={fontSize}
             fontFamily="Special Elite, monospace"

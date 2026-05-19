@@ -13,6 +13,8 @@ export default function TypewriterMode() {
     setText,
     inkColor,
     fontSize,
+    paperWidth,
+    paperHeight,
     paperBackground,
     paperLineColor,
     paperBackgroundImage,
@@ -60,8 +62,8 @@ export default function TypewriterMode() {
       <div
         className="relative border border-warm-brown/30 shadow-lg"
         style={{
-          width: PAPER.width,
-          height: PAPER.height,
+          width: paperWidth,
+          height: paperHeight,
           backgroundColor: paperBackground,
           backgroundImage: paperBackgroundImage
             ? `url(${paperBackgroundImage})`

@@ -5,6 +5,7 @@ import {
   INK_COLORS,
   FONT_SIZES,
   PAPER_TEMPLATES,
+  PAPER_SIZES,
 } from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 
@@ -14,8 +15,11 @@ export default function TypewriterToolbar() {
     setInkColor,
     fontSize,
     setFontSize,
+    paperWidth,
+    paperHeight,
     paperBackground,
     paperBackgroundImage,
+    setPaperSize,
     setPaperTemplate,
     setPaperBackgroundImage,
     reset,
@@ -69,9 +73,32 @@ export default function TypewriterToolbar() {
         </div>
       </div>
 
+      {/* Paper Size */}
+      <div>
+        <h3 className="text-sm font-semibold text-ink mb-2">Paper Size</h3>
+        <div className="flex flex-wrap gap-1">
+          {PAPER_SIZES.map((size) => (
+            <button
+              key={size.id}
+              onClick={() => setPaperSize(size.id)}
+              className={`px-2 py-1 text-xs rounded transition-colors ${
+                paperWidth === size.width && paperHeight === size.height
+                  ? "bg-warm-brown text-cream"
+                  : "bg-warm-brown/10 text-warm-brown hover:bg-warm-brown/20"
+              }`}
+            >
+              {size.name}
+            </button>
+          ))}
+        </div>
+        <p className="text-[10px] text-ink/40 mt-1">
+          {paperWidth} &times; {paperHeight}px
+        </p>
+      </div>
+
       {/* Paper Color */}
       <div>
-        <h3 className="text-sm font-semibold text-ink mb-2">Paper</h3>
+        <h3 className="text-sm font-semibold text-ink mb-2">Paper Color</h3>
         <div className="grid grid-cols-4 gap-2">
           {PAPER_TEMPLATES.map((tmpl) => (
             <button
