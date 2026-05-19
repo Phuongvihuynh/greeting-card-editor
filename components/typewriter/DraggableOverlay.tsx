@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useOverlayDrag } from "@/hooks/useOverlayDrag";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 import { getFrameStyles } from "@/lib/frame-templates";
@@ -46,8 +46,48 @@ export default function DraggableOverlay({
 
   const handleDeletePointerDown = useCallback(
     (e: React.PointerEvent) => {
-      // Prevent the parent drag handler from capturing this event
       e.stopPropagation();
+    },
+    []
+  );
+
+  // Resize logic
+  const resizing = useRef(false);
+  const resizeStart = useRef({ x: 0, y: 0, w: 0, h: 0 });
+
+  const handleResizePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      resizing.current = true;
+      resizeStart.current = {
+        x: e.clientX,
+        y: e.clientY,
+        w: overlay.width,
+        h: overlay.height,
+      };
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    },
+    [overlay.width, overlay.height]
+  );
+
+  const handleResizePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!resizing.current) return;
+      const dx = e.clientX - resizeStart.current.x;
+      const aspectRatio = resizeStart.current.w / resizeStart.current.h;
+      const newWidth = Math.max(30, resizeStart.current.w + dx);
+      const newHeight = newWidth / aspectRatio;
+      updateOverlay(overlay.id, { width: Math.round(newWidth), height: Math.round(newHeight) });
+    },
+    [overlay.id, updateOverlay]
+  );
+
+  const handleResizePointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      if (!resizing.current) return;
+      resizing.current = false;
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     },
     []
   );
@@ -117,10 +157,30 @@ export default function DraggableOverlay({
           onClick={handleDelete}
           onPointerDown={handleDeletePointerDown}
           className="absolute -top-3 -right-3 w-6 h-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center hover:bg-red-600 transition-colors shadow"
-          style={{ pointerEvents: "auto" }}
+          style={{ pointerEvents: "auto", zIndex: 10 }}
         >
           &times;
         </button>
+      )}
+
+      {/* Resize handle */}
+      {isSelected && (
+        <div
+          onPointerDown={handleResizePointerDown}
+          onPointerMove={handleResizePointerMove}
+          onPointerUp={handleResizePointerUp}
+          className="absolute -bottom-2 -right-2 w-5 h-5 rounded-sm bg-white border-2 border-[#8B6914] shadow"
+          style={{
+            cursor: "nwse-resize",
+            pointerEvents: "auto",
+            touchAction: "none",
+            zIndex: 10,
+          }}
+        >
+          <svg viewBox="0 0 10 10" className="w-full h-full text-[#8B6914]">
+            <path d="M8 2L2 8M8 5L5 8" stroke="currentColor" strokeWidth="1.5" fill="none" />
+          </svg>
+        </div>
       )}
     </div>
   );
