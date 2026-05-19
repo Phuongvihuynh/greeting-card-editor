@@ -9,7 +9,8 @@ import type Konva from "konva";
 
 export default function TypewriterExport() {
   const stageRef = useRef<Konva.Stage>(null);
-  const { text, inkColor, fontSize, overlays } = useTypewriterStore();
+  const { text, inkColor, fontSize, overlays, paperBackground, paperLineColor } =
+    useTypewriterStore();
 
   useEffect(() => {
     const handleExport = async () => {
@@ -57,7 +58,7 @@ export default function TypewriterExport() {
             y={0}
             width={PAPER.width}
             height={PAPER.height}
-            fill={PAPER.background}
+            fill={paperBackground}
           />
 
           {/* Ruled lines */}
@@ -65,7 +66,7 @@ export default function TypewriterExport() {
             <Line
               key={y}
               points={[0, y, PAPER.width, y]}
-              stroke={PAPER.lineColor}
+              stroke={paperLineColor}
               strokeWidth={1}
             />
           ))}

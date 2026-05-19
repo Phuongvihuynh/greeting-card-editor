@@ -1,11 +1,22 @@
 "use client";
 
-import { INK_COLORS, FONT_SIZES } from "@/lib/typewriter-constants";
+import {
+  INK_COLORS,
+  FONT_SIZES,
+  PAPER_TEMPLATES,
+} from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 
 export default function TypewriterToolbar() {
-  const { inkColor, setInkColor, fontSize, setFontSize, reset } =
-    useTypewriterStore();
+  const {
+    inkColor,
+    setInkColor,
+    fontSize,
+    setFontSize,
+    paperBackground,
+    setPaperTemplate,
+    reset,
+  } = useTypewriterStore();
 
   const handleDownload = () => {
     window.dispatchEvent(new CustomEvent("typewriter:export"));
@@ -38,6 +49,36 @@ export default function TypewriterToolbar() {
                 style={{ backgroundColor: color.value }}
               />
               <span className="text-[10px] text-ink/70">{color.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Paper Color */}
+      <div>
+        <h3 className="text-sm font-semibold text-ink mb-2">Paper</h3>
+        <div className="grid grid-cols-4 gap-2">
+          {PAPER_TEMPLATES.map((tmpl) => (
+            <button
+              key={tmpl.id}
+              onClick={() => setPaperTemplate(tmpl.id)}
+              title={tmpl.name}
+              className="flex flex-col items-center gap-1 p-1 rounded border transition-colors"
+              style={{
+                borderColor:
+                  paperBackground === tmpl.background
+                    ? "#8B6914"
+                    : "rgba(139, 105, 20, 0.2)",
+                borderWidth: paperBackground === tmpl.background ? 2 : 1,
+              }}
+            >
+              <div
+                className="w-8 h-8 rounded-sm border border-warm-brown/10"
+                style={{ backgroundColor: tmpl.background }}
+              />
+              <span className="text-[9px] text-ink/60 leading-tight">
+                {tmpl.name}
+              </span>
             </button>
           ))}
         </div>
