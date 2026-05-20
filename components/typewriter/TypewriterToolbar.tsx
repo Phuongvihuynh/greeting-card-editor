@@ -34,6 +34,10 @@ export default function TypewriterToolbar() {
     toggleUnderline,
     setTextAlign,
     setLineSpacing,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     reset,
   } = useTypewriterStore();
   const handleDownload = () => {
@@ -42,6 +46,32 @@ export default function TypewriterToolbar() {
 
   return (
     <div className="p-4 space-y-6">
+      {/* Undo / Redo */}
+      <div className="flex gap-2">
+        <button
+          onClick={undo}
+          disabled={!canUndo}
+          className="flex-1 py-1.5 text-sm rounded border transition-colors flex items-center justify-center gap-1 disabled:opacity-30 disabled:cursor-not-allowed bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+          </svg>
+          Undo
+        </button>
+        <button
+          onClick={redo}
+          disabled={!canRedo}
+          className="flex-1 py-1.5 text-sm rounded border transition-colors flex items-center justify-center gap-1 disabled:opacity-30 disabled:cursor-not-allowed bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10" />
+          </svg>
+          Redo
+        </button>
+      </div>
+
       {/* Ink Color */}
       <div>
         <h3 className="text-sm font-semibold text-ink mb-2">Ink Color</h3>

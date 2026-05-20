@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { INK_COLORS, FONT_SIZES, FONT_FAMILIES, PAPER_TEMPLATES, PAPER, PAPER_SIZES } from "@/lib/typewriter-constants";
 import type { TypewriterOverlay, FrameType } from "@/types/typewriter";
 
-interface TypewriterStore {
+// Undoable state snapshot
+interface Snapshot {
   text: string;
   inkColor: string;
   fontSize: number;
@@ -17,9 +18,21 @@ interface TypewriterStore {
   isUnderline: boolean;
   textAlign: "left" | "center" | "right";
   lineSpacing: number;
-  customBackgrounds: { id: string; src: string; name: string }[];
   overlays: TypewriterOverlay[];
+}
+
+const MAX_HISTORY = 50;
+
+interface TypewriterStore extends Snapshot {
+  customBackgrounds: { id: string; src: string; name: string }[];
   selectedOverlayId: string | null;
+  _past: Snapshot[];
+  _future: Snapshot[];
+  _saveSnapshot: () => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
   setText: (text: string) => void;
   setInkColor: (color: string) => void;
   setFontSize: (size: number) => void;
@@ -42,7 +55,27 @@ interface TypewriterStore {
   reset: () => void;
 }
 
-export const useTypewriterStore = create<TypewriterStore>((set) => ({
+function getSnapshot(state: TypewriterStore): Snapshot {
+  return {
+    text: state.text,
+    inkColor: state.inkColor,
+    fontSize: state.fontSize,
+    fontFamilyId: state.fontFamilyId,
+    paperWidth: state.paperWidth,
+    paperHeight: state.paperHeight,
+    paperBackground: state.paperBackground,
+    paperLineColor: state.paperLineColor,
+    paperBackgroundImage: state.paperBackgroundImage,
+    isBold: state.isBold,
+    isItalic: state.isItalic,
+    isUnderline: state.isUnderline,
+    textAlign: state.textAlign,
+    lineSpacing: state.lineSpacing,
+    overlays: state.overlays,
+  };
+}
+
+export const useTypewriterStore = create<TypewriterStore>((set, get) => ({
   text: "",
   inkColor: INK_COLORS[0].value,
   fontSize: FONT_SIZES[3],
@@ -60,25 +93,93 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   customBackgrounds: [],
   overlays: [],
   selectedOverlayId: null,
+  _past: [],
+  _future: [],
+  canUndo: false,
+  canRedo: false,
+
+  _saveSnapshot: () => {
+    const snap = getSnapshot(get());
+    set((s) => ({
+      _past: [...s._past.slice(-(MAX_HISTORY - 1)), snap],
+      _future: [],
+      canUndo: true,
+      canRedo: false,
+    }));
+  },
+
+  undo: () => {
+    const { _past } = get();
+    if (_past.length === 0) return;
+    const prev = _past[_past.length - 1];
+    const currentSnap = getSnapshot(get());
+    set({
+      ...prev,
+      _past: _past.slice(0, -1),
+      _future: [...get()._future, currentSnap],
+      canUndo: _past.length - 1 > 0,
+      canRedo: true,
+    });
+  },
+
+  redo: () => {
+    const { _future } = get();
+    if (_future.length === 0) return;
+    const next = _future[_future.length - 1];
+    const currentSnap = getSnapshot(get());
+    set({
+      ...next,
+      _past: [...get()._past, currentSnap],
+      _future: _future.slice(0, -1),
+      canUndo: true,
+      canRedo: _future.length - 1 > 0,
+    });
+  },
 
   setText: (text) => set({ text }),
-  setInkColor: (inkColor) => set({ inkColor }),
-  setFontSize: (fontSize) => set({ fontSize }),
-  setFontFamily: (fontFamilyId) => set({ fontFamilyId }),
-  toggleBold: () => set((s) => ({ isBold: !s.isBold })),
-  toggleItalic: () => set((s) => ({ isItalic: !s.isItalic })),
-  toggleUnderline: () => set((s) => ({ isUnderline: !s.isUnderline })),
-  setTextAlign: (textAlign) => set({ textAlign }),
-  setLineSpacing: (lineSpacing) => set({ lineSpacing }),
+  setInkColor: (inkColor) => {
+    get()._saveSnapshot();
+    set({ inkColor });
+  },
+  setFontSize: (fontSize) => {
+    get()._saveSnapshot();
+    set({ fontSize });
+  },
+  setFontFamily: (fontFamilyId) => {
+    get()._saveSnapshot();
+    set({ fontFamilyId });
+  },
+  toggleBold: () => {
+    get()._saveSnapshot();
+    set((s) => ({ isBold: !s.isBold }));
+  },
+  toggleItalic: () => {
+    get()._saveSnapshot();
+    set((s) => ({ isItalic: !s.isItalic }));
+  },
+  toggleUnderline: () => {
+    get()._saveSnapshot();
+    set((s) => ({ isUnderline: !s.isUnderline }));
+  },
+  setTextAlign: (textAlign) => {
+    get()._saveSnapshot();
+    set({ textAlign });
+  },
+  setLineSpacing: (lineSpacing) => {
+    get()._saveSnapshot();
+    set({ lineSpacing });
+  },
   setPaperSize: (sizeId) => {
     const size = PAPER_SIZES.find((s) => s.id === sizeId);
     if (size) {
+      get()._saveSnapshot();
       set({ paperWidth: size.width, paperHeight: size.height });
     }
   },
   setPaperTemplate: (templateId) => {
     const tmpl = PAPER_TEMPLATES.find((t) => t.id === templateId);
     if (tmpl) {
+      get()._saveSnapshot();
       set({
         paperBackground: tmpl.background,
         paperLineColor: tmpl.lineColor,
@@ -86,7 +187,10 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       });
     }
   },
-  setPaperBackgroundImage: (src) => set({ paperBackgroundImage: src }),
+  setPaperBackgroundImage: (src) => {
+    get()._saveSnapshot();
+    set({ paperBackgroundImage: src });
+  },
 
   addCustomBackground: (src, name) =>
     set((state) => ({
@@ -105,11 +209,13 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
           : state.paperBackgroundImage,
     })),
 
-  addOverlay: (overlay) =>
+  addOverlay: (overlay) => {
+    get()._saveSnapshot();
     set((state) => ({
       overlays: [...state.overlays, overlay],
       selectedOverlayId: overlay.id,
-    })),
+    }));
+  },
 
   updateOverlay: (id, updates) =>
     set((state) => ({
@@ -118,21 +224,25 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       ),
     })),
 
-  removeOverlay: (id) =>
+  removeOverlay: (id) => {
+    get()._saveSnapshot();
     set((state) => ({
       overlays: state.overlays.filter((o) => o.id !== id),
       selectedOverlayId:
         state.selectedOverlayId === id ? null : state.selectedOverlayId,
-    })),
+    }));
+  },
 
   selectOverlay: (id) => set({ selectedOverlayId: id }),
 
-  setOverlayFrame: (id, frame) =>
+  setOverlayFrame: (id, frame) => {
+    get()._saveSnapshot();
     set((state) => ({
       overlays: state.overlays.map((o) =>
         o.id === id ? { ...o, frame } : o
       ),
-    })),
+    }));
+  },
 
   reset: () =>
     set({
@@ -152,5 +262,9 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       lineSpacing: PAPER.lineSpacing,
       overlays: [],
       selectedOverlayId: null,
+      _past: [],
+      _future: [],
+      canUndo: false,
+      canRedo: false,
     }),
 }));
