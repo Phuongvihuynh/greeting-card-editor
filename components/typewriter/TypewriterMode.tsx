@@ -22,6 +22,7 @@ export default function TypewriterMode() {
     isItalic,
     isUnderline,
     fontFamilyId,
+    textAlign,
     selectOverlay,
   } = useTypewriterStore();
 
@@ -104,6 +105,7 @@ export default function TypewriterMode() {
             fontWeight: isBold ? "bold" : "normal",
             fontStyle: isItalic ? "italic" : "normal",
             textDecoration: isUnderline ? "underline" : "none",
+            textAlign,
             zIndex: 10,
             position: "relative",
           }}

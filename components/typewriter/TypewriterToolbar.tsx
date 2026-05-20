@@ -24,11 +24,13 @@ export default function TypewriterToolbar() {
     isBold,
     isItalic,
     isUnderline,
+    textAlign,
     setPaperSize,
     setPaperTemplate,
     toggleBold,
     toggleItalic,
     toggleUnderline,
+    setTextAlign,
     reset,
   } = useTypewriterStore();
   const handleDownload = () => {
@@ -157,6 +159,47 @@ export default function TypewriterToolbar() {
           >
             U
           </button>
+        </div>
+        <div className="flex gap-1 mt-1">
+          {(["left", "center", "right"] as const).map((align) => (
+            <button
+              key={align}
+              onClick={() => setTextAlign(align)}
+              title={align.charAt(0).toUpperCase() + align.slice(1)}
+              className={`flex-1 py-1.5 rounded border transition-colors flex items-center justify-center ${
+                textAlign === align
+                  ? "bg-warm-brown text-cream border-warm-brown"
+                  : "bg-cream text-ink/70 border-warm-brown/20 hover:bg-warm-brown/10"
+              }`}
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                {align === "left" && (
+                  <>
+                    <rect x="1" y="2" width="14" height="1.5" rx="0.5"/>
+                    <rect x="1" y="6" width="10" height="1.5" rx="0.5"/>
+                    <rect x="1" y="10" width="12" height="1.5" rx="0.5"/>
+                    <rect x="1" y="14" width="8" height="1.5" rx="0.5"/>
+                  </>
+                )}
+                {align === "center" && (
+                  <>
+                    <rect x="1" y="2" width="14" height="1.5" rx="0.5"/>
+                    <rect x="3" y="6" width="10" height="1.5" rx="0.5"/>
+                    <rect x="2" y="10" width="12" height="1.5" rx="0.5"/>
+                    <rect x="4" y="14" width="8" height="1.5" rx="0.5"/>
+                  </>
+                )}
+                {align === "right" && (
+                  <>
+                    <rect x="1" y="2" width="14" height="1.5" rx="0.5"/>
+                    <rect x="5" y="6" width="10" height="1.5" rx="0.5"/>
+                    <rect x="3" y="10" width="12" height="1.5" rx="0.5"/>
+                    <rect x="7" y="14" width="8" height="1.5" rx="0.5"/>
+                  </>
+                )}
+              </svg>
+            </button>
+          ))}
         </div>
       </div>
 
