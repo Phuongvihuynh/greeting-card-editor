@@ -23,6 +23,7 @@ export default function TypewriterMode() {
     isUnderline,
     fontFamilyId,
     textAlign,
+    lineSpacing,
     selectOverlay,
   } = useTypewriterStore();
 
@@ -55,9 +56,9 @@ export default function TypewriterMode() {
   const ruledLinesBg = `repeating-linear-gradient(
     to bottom,
     transparent,
-    transparent ${PAPER.lineSpacing - 1}px,
-    ${paperLineColor} ${PAPER.lineSpacing - 1}px,
-    ${paperLineColor} ${PAPER.lineSpacing}px
+    transparent ${lineSpacing - 1}px,
+    ${paperLineColor} ${lineSpacing - 1}px,
+    ${paperLineColor} ${lineSpacing}px
   )`;
 
   return (
@@ -98,7 +99,7 @@ export default function TypewriterMode() {
           style={{
             fontFamily: currentFont.css,
             fontSize,
-            lineHeight: `${PAPER.lineSpacing}px`,
+            lineHeight: `${lineSpacing}px`,
             color: inkColor,
             caretColor: inkColor,
             padding: `${PAPER.paddingTop}px ${PAPER.paddingRight}px 20px ${PAPER.paddingLeft}px`,

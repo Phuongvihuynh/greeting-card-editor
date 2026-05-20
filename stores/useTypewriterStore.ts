@@ -16,6 +16,7 @@ interface TypewriterStore {
   isItalic: boolean;
   isUnderline: boolean;
   textAlign: "left" | "center" | "right";
+  lineSpacing: number;
   customBackgrounds: { id: string; src: string; name: string }[];
   overlays: TypewriterOverlay[];
   selectedOverlayId: string | null;
@@ -27,6 +28,7 @@ interface TypewriterStore {
   toggleItalic: () => void;
   toggleUnderline: () => void;
   setTextAlign: (align: "left" | "center" | "right") => void;
+  setLineSpacing: (spacing: number) => void;
   setPaperSize: (sizeId: string) => void;
   setPaperTemplate: (templateId: string) => void;
   setPaperBackgroundImage: (src: string | null) => void;
@@ -54,6 +56,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   isItalic: false,
   isUnderline: false,
   textAlign: "left" as const,
+  lineSpacing: PAPER.lineSpacing,
   customBackgrounds: [],
   overlays: [],
   selectedOverlayId: null,
@@ -66,6 +69,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
   toggleItalic: () => set((s) => ({ isItalic: !s.isItalic })),
   toggleUnderline: () => set((s) => ({ isUnderline: !s.isUnderline })),
   setTextAlign: (textAlign) => set({ textAlign }),
+  setLineSpacing: (lineSpacing) => set({ lineSpacing }),
   setPaperSize: (sizeId) => {
     const size = PAPER_SIZES.find((s) => s.id === sizeId);
     if (size) {
@@ -145,6 +149,7 @@ export const useTypewriterStore = create<TypewriterStore>((set) => ({
       isItalic: false,
       isUnderline: false,
       textAlign: "left" as const,
+      lineSpacing: PAPER.lineSpacing,
       overlays: [],
       selectedOverlayId: null,
     }),
