@@ -24,6 +24,7 @@ export default function TypewriterExport() {
     isUnderline,
     fontFamilyId,
     textAlign,
+    lineSpacing,
   } = useTypewriterStore();
 
   const currentFont = FONT_FAMILIES.find((f) => f.id === fontFamilyId) ?? FONT_FAMILIES[0];
@@ -69,9 +70,9 @@ export default function TypewriterExport() {
   // Generate ruled lines
   const lines: number[] = [];
   for (
-    let y = PAPER.paddingTop + PAPER.lineSpacing;
+    let y = PAPER.paddingTop + lineSpacing;
     y < paperHeight;
-    y += PAPER.lineSpacing
+    y += lineSpacing
   ) {
     lines.push(y);
   }
@@ -122,7 +123,7 @@ export default function TypewriterExport() {
             textDecoration={isUnderline ? "underline" : ""}
             align={textAlign}
             fill={inkColor}
-            lineHeight={PAPER.lineSpacing / fontSize}
+            lineHeight={lineSpacing / fontSize}
           />
 
           {/* Overlays (stickers + images with frames) */}

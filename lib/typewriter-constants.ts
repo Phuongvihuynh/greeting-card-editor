@@ -30,6 +30,14 @@ export type FontFamily = (typeof FONT_FAMILIES)[number];
 
 export const FONT_SIZES = [16, 18, 20, 22, 24, 28, 32] as const;
 
+export const LINE_SPACINGS = [
+  { label: "Tight", value: 22 },
+  { label: "Normal", value: 28 },
+  { label: "Relaxed", value: 34 },
+  { label: "Loose", value: 40 },
+  { label: "Double", value: 48 },
+] as const;
+
 export const PAPER = {
   width: 700,
   height: 520,

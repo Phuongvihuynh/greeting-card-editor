@@ -4,6 +4,7 @@ import {
   INK_COLORS,
   FONT_SIZES,
   FONT_FAMILIES,
+  LINE_SPACINGS,
   PAPER_TEMPLATES,
   PAPER_SIZES,
 } from "@/lib/typewriter-constants";
@@ -25,12 +26,14 @@ export default function TypewriterToolbar() {
     isItalic,
     isUnderline,
     textAlign,
+    lineSpacing,
     setPaperSize,
     setPaperTemplate,
     toggleBold,
     toggleItalic,
     toggleUnderline,
     setTextAlign,
+    setLineSpacing,
     reset,
   } = useTypewriterStore();
   const handleDownload = () => {
@@ -238,6 +241,26 @@ export default function TypewriterToolbar() {
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Line Spacing */}
+      <div>
+        <h3 className="text-sm font-semibold text-ink mb-2">Line Spacing</h3>
+        <div className="flex flex-wrap gap-1">
+          {LINE_SPACINGS.map((sp) => (
+            <button
+              key={sp.value}
+              onClick={() => setLineSpacing(sp.value)}
+              className={`px-2 py-1 text-xs rounded transition-colors ${
+                lineSpacing === sp.value
+                  ? "bg-warm-brown text-cream"
+                  : "bg-warm-brown/10 text-warm-brown hover:bg-warm-brown/20"
+              }`}
+            >
+              {sp.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Download */}
