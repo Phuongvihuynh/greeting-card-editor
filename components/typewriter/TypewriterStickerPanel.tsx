@@ -36,6 +36,7 @@ export default function TypewriterStickerPanel() {
       y: (paperHeight - sticker.height) / 2,
       width: sticker.width,
       height: sticker.height,
+      rotation: 0,
       frame: "none",
     };
 

@@ -47,6 +47,7 @@ export default function TypewriterImageUpload() {
           y: (paperHeight - height) / 2,
           width,
           height,
+          rotation: 0,
           frame: selectedFrame,
         };
 

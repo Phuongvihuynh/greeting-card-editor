@@ -14,6 +14,7 @@ export interface TypewriterOverlay {
   y: number;
   width: number;
   height: number;
+  rotation: number;
   frame: FrameType;
 }
 

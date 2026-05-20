@@ -17,12 +17,14 @@ function FrameKonva({
   overlay: TypewriterOverlay;
   children: React.ReactNode;
 }) {
-  const { frame, x, y, width, height } = overlay;
+  const { frame, x, y, width, height, rotation } = overlay;
+  const offsetX = width / 2;
+  const offsetY = height / 2;
 
   switch (frame) {
     case "polaroid":
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           {/* Shadow */}
           <Rect
             x={2}
@@ -47,7 +49,7 @@ function FrameKonva({
 
     case "vintage-gold":
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           {/* Outer gold border */}
           <Rect
             x={0}
@@ -65,7 +67,7 @@ function FrameKonva({
 
     case "tape-corners":
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           {children}
           {/* Four tape corners */}
           <Rect x={-4} y={-4} width={24} height={12} fill="rgba(251,191,36,0.35)" rotation={-25} />
@@ -95,7 +97,7 @@ function FrameKonva({
       tornPoints.push(0, 0);
 
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           <Line points={tornPoints} closed fill="#FFFFFF" />
           <Group x={8} y={8}>{children}</Group>
         </Group>
@@ -104,7 +106,7 @@ function FrameKonva({
 
     case "stamp-border":
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           <Rect
             x={0}
             y={0}
@@ -122,7 +124,7 @@ function FrameKonva({
 
     default:
       return (
-        <Group x={x} y={y}>
+        <Group x={x + offsetX} y={y + offsetY} offsetX={offsetX} offsetY={offsetY} rotation={rotation || 0}>
           {children}
         </Group>
       );
