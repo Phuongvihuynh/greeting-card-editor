@@ -23,6 +23,7 @@ export default function TypewriterExport() {
     isItalic,
     isUnderline,
     fontFamilyId,
+    textAlign,
   } = useTypewriterStore();
 
   const currentFont = FONT_FAMILIES.find((f) => f.id === fontFamilyId) ?? FONT_FAMILIES[0];
@@ -119,6 +120,7 @@ export default function TypewriterExport() {
             fontFamily={currentFont.konva}
             fontStyle={[isBold ? "bold" : "", isItalic ? "italic" : ""].filter(Boolean).join(" ") || "normal"}
             textDecoration={isUnderline ? "underline" : ""}
+            align={textAlign}
             fill={inkColor}
             lineHeight={PAPER.lineSpacing / fontSize}
           />
