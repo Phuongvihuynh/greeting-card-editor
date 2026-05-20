@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { PAPER, FONT_FAMILIES } from "@/lib/typewriter-constants";
 import { useTypewriterStore } from "@/stores/useTypewriterStore";
 import CarriageReturn from "./CarriageReturn";
@@ -25,10 +25,47 @@ export default function TypewriterMode() {
     textAlign,
     lineSpacing,
     selectOverlay,
+    undo,
+    redo,
+    _saveSnapshot,
   } = useTypewriterStore();
 
   const currentFont = FONT_FAMILIES.find((f) => f.id === fontFamilyId) ?? FONT_FAMILIES[0];
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Debounced text snapshot: save a snapshot 500ms after the user stops typing
+  const handleTextChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      // Save snapshot before the first keystroke in a burst
+      if (!debounceRef.current) _saveSnapshot();
+      setText(e.target.value);
+      debounceRef.current = setTimeout(() => {
+        debounceRef.current = null;
+      }, 500);
+    },
+    [setText, _saveSnapshot]
+  );
+
+  // Keyboard shortcuts: Ctrl+Z / Ctrl+Shift+Z (or Cmd on Mac)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const mod = e.metaKey || e.ctrlKey;
+      if (mod && e.key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      } else if (mod && e.key === "z" && e.shiftKey) {
+        e.preventDefault();
+        redo();
+      } else if (mod && e.key === "y") {
+        e.preventDefault();
+        redo();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [undo, redo]);
 
   const handleCarriageReturn = useCallback(() => {
     const ta = textareaRef.current;
@@ -94,7 +131,7 @@ export default function TypewriterMode() {
         <textarea
           ref={textareaRef}
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={handleTextChange}
           className="absolute inset-0 w-full h-full resize-none bg-transparent outline-none"
           style={{
             fontFamily: currentFont.css,
